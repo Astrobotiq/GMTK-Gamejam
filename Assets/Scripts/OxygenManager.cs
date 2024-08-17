@@ -5,21 +5,58 @@ public class OxygenManager: MonoBehaviour
 {
     private float _oxygenTank = 100f;
     private Coroutine _breatheCoroutine;
+    private Coroutine _oxygenConsumptionCoroutine;
     
     void Start()
     {
-        Breathe();   
+        StartCoroutine(TestOxygenConsumption());
+       // Breathe();   
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Oxygen level:"+_oxygenTank);
+        Debug.Log("Oxygen level:"+_oxygenTank);
     }
 
-    public void Use02ForPush(float durationInSeconds)
+    
+    public void StartUseO2ForPush()
     {
-        StartCoroutine(ConsumeOxygenOverTime(1f, durationInSeconds));
+        // Ensure any existing coroutine is stopped before starting a new one
+        if (_oxygenConsumptionCoroutine != null)
+        {
+            StopCoroutine(_oxygenConsumptionCoroutine);
+        }
+    
+        _oxygenConsumptionCoroutine = StartCoroutine(ConsumeOxygenOverTime(1f));
+    }
+    public void EndUseO2ForPush()
+    {
+        // Stop the coroutine if it's running
+        if (_oxygenConsumptionCoroutine != null)
+        {
+            StopCoroutine(_oxygenConsumptionCoroutine);
+            _oxygenConsumptionCoroutine = null;
+        }
+    }
+    private IEnumerator ConsumeOxygenOverTime(float amountPerSecond)
+    {
+        while (_oxygenTank > 0)
+        {
+            // Calculate oxygen consumption per frame based on time
+            float oxygenConsumption = amountPerSecond * Time.deltaTime;
+            _oxygenTank -= oxygenConsumption;
+
+            yield return null; // Wait for the next frame
+        }
+
+        if (_oxygenTank <= 0)
+        {
+            _oxygenTank = 0;
+            // Handle oxygen depletion (e.g., game over logic)
+        }
+    
+        _oxygenConsumptionCoroutine = null; // Reset coroutine reference when finished
     }
 
     // Method to start the continuous breathing
@@ -50,27 +87,29 @@ public class OxygenManager: MonoBehaviour
 
         _breatheCoroutine = null; // Mark the coroutine as stopped
     }
-
-    // Coroutine to consume oxygen over time (using Time.deltaTime)
-    private IEnumerator ConsumeOxygenOverTime(float amountPerSecond, float durationInSeconds)
+    private IEnumerator TestOxygenConsumption()
     {
-        float elapsedTime = 0f;
+        Debug.Log("Starting test...");
 
-        while (elapsedTime < durationInSeconds && _oxygenTank > 0)
-        {
-            // Calculate oxygen consumption per frame based on time
-            float oxygenConsumption = amountPerSecond * Time.deltaTime;
-            _oxygenTank -= oxygenConsumption;
+        // Wait for 2 seconds to simulate normal breathing
+        yield return new WaitForSeconds(2f);
 
-            elapsedTime += Time.deltaTime;
-            yield return null; // Wait for the next frame
-        }
+        // Start using oxygen for push
+        Debug.Log("Starting UseO2ForPush...");
+        StartUseO2ForPush();
 
-        if (_oxygenTank <= 0)
-        {
-            _oxygenTank = 0;
-            // Handle oxygen depletion (e.g., game over logic)
-        }
+        // Wait for 3 seconds to simulate oxygen consumption for push
+        yield return new WaitForSeconds(3f);
+
+        // Stop using oxygen for push
+        Debug.Log("Stopping UseO2ForPush...");
+        EndUseO2ForPush();
+
+        // Wait for another 3 seconds to observe normal breathing again
+        yield return new WaitForSeconds(3f);
+
+        Debug.Log("Test completed.");
     }
+    
 }
 
