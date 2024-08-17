@@ -1,0 +1,94 @@
+{
+    "name": "CharacterInputs",
+    "maps": [
+        {
+            "name": "CharacterControls",
+            "id": "664bd0b2-b670-440e-ba74-62702738f8c4",
+            "actions": [
+                {
+                    "name": "LeftOxygen",
+                    "type": "Button",
+                    "id": "f0d85605-8314-45c1-b210-a5dd9ca3d25e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightOxygen",
+                    "type": "Button",
+                    "id": "770a82ef-f57a-467f-8c89-76036262c063",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "137297f6-2a07-49f9-a1f8-f90d6a80c324",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Hold",
+                    "type": "Button",
+                    "id": "8cc08c0a-ca0b-4c4f-b4ab-4f0b6ffbba07",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d7725324-eaab-467a-b1f9-ce01b94caf52",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftOxygen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d6d81c7d-2075-4d68-a706-6155fa76c41a",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightOxygen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "57f23b7c-1d81-434f-9169-cab5d3ea9d9d",
+                    "path": "<XInputController>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "95280e68-539e-4887-9b13-9291a3b57b7b",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
