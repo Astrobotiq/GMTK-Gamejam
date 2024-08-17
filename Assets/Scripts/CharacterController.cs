@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class CharacterController : MonoBehaviour
     public Transform rightArm;
     Vector2 dir;
     Rigidbody2D rb;
+    public Transform rightHand;
+    public Transform leftHand;
 
     
 
@@ -26,6 +29,11 @@ public class CharacterController : MonoBehaviour
         isLookingLeft = false;
         ChooseArm(isLookingLeft);
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        
     }
 
     // Update is called once per frame
@@ -89,12 +97,33 @@ public class CharacterController : MonoBehaviour
 
     public void LeftOxygen()
     {
-        rb.AddForce(Vector2.left*3,ForceMode2D.Force);
+       
+        
+        // Convert the angle to radians (for trigonometric functions)
+        float angleInRadians = transform.eulerAngles.z * Mathf.Deg2Rad;
+
+        // Create a Vector2 direction from the rotation angle
+        Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+
+        // For demonstration: print the direction
+        Debug.DrawRay(leftHand.position,direction,Color.red);
+        
+        rb.AddForceAtPosition(direction*0.2f,leftHand.position,ForceMode2D.Force);
     }
     
     public void RightOxygen()
     {
-        rb.AddForce(Vector2.right*3,ForceMode2D.Force);
+        
+        // Convert the angle to radians (for trigonometric functions)
+        float angleInRadians = transform.eulerAngles.z * Mathf.Deg2Rad;
+
+        // Create a Vector2 direction from the rotation angle
+        Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+
+        // For demonstration: print the direction
+        Debug.DrawRay(rightHand.position,direction,Color.red);
+        
+        rb.AddForceAtPosition(-direction*0.2f,rightHand.position,ForceMode2D.Force);
     }
     
     

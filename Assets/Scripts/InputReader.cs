@@ -9,6 +9,7 @@ public class InputReader : MonoBehaviour
     CharacterController controller;
     CharacterInputs inputs;
     Vector2 Rotation;
+    public OxygenManager oxygenManager;
 
     void Start()
     {
@@ -21,23 +22,54 @@ public class InputReader : MonoBehaviour
     {
         Rotation = inputs.CharacterControls.Look.ReadValue<Vector2>();
         controller.Look(Rotation);
-    }
 
-    public void onLeftOxygen(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            controller.LeftOxygen();
-        }
-    }
-    
-    public void onRightOxygen(InputAction.CallbackContext context)
-    {
-        if (context.performed)
+        if (inputs.CharacterControls.RightOxygen.IsPressed())
         {
             controller.RightOxygen();
+            oxygenManager.StartUseO2ForPush();
         }
+        else
+        {
+            oxygenManager.EndUseO2ForPush();
+        }
+        
+        if (inputs.CharacterControls.LeftOxygen.IsPressed())
+        {
+            controller.LeftOxygen();
+            oxygenManager.StartUseO2ForPush();
+        }
+        else
+        {
+            oxygenManager.EndUseO2ForPush();
+        }
+
+        
+        
     }
+
+    //public void onLeftOxygen(InputAction.CallbackContext context)
+    //{
+    //    if (context.performed)
+    //    {
+    // //       controller.LeftOxygen();
+    //    }
+    //    else if (context.canceled)
+    //    {
+    //        
+    //    }
+    //}
+    //
+    //public void onRightOxygen(InputAction.CallbackContext context)
+    //{
+    //    if (context.performed)
+    //    {
+   //         
+    //    }
+    //    else if (context.canceled)
+    //    {
+    //        
+   //     }
+    //}
     
     
     

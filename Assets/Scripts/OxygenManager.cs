@@ -9,14 +9,13 @@ public class OxygenManager: MonoBehaviour
     
     void Start()
     {
-        StartCoroutine(TestOxygenConsumption());
        // Breathe();   
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Oxygen level:"+_oxygenTank);
+        //Debug.Log("Oxygen level:"+_oxygenTank);
     }
 
     
@@ -87,7 +86,7 @@ public class OxygenManager: MonoBehaviour
 
         _breatheCoroutine = null; // Mark the coroutine as stopped
     }
-    private IEnumerator TestOxygenConsumption()
+    /*private IEnumerator TestOxygenConsumption()
     {
         Debug.Log("Starting test...");
 
@@ -109,7 +108,7 @@ public class OxygenManager: MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         Debug.Log("Test completed.");
-    }
+    }*/
     
 }
 
