@@ -5,21 +5,35 @@ public class OxygenManager: MonoBehaviour
 {
     private float _oxygenTank = 100f;
     private Coroutine _breatheCoroutine;
+    private Coroutine _actionCoroutine;
+    private bool _stopAction = true;
     
     void Start()
     {
-        Breathe();   
+        //Breathe(); 
+        Use02ForPush();
     }
 
     // Update is called once per frame
     void Update()
     {
         Debug.Log("Oxygen level:"+_oxygenTank);
+        
+        
+
+        // Stop action if you click something (e.g., the left mouse button)
+        if (Input.GetMouseButtonDown(0))
+        {
+            _stopAction = false; // Set the flag to stop the action
+        }
     }
 
-    public void Use02ForPush(float durationInSeconds)
+    public void Use02ForPush()
     {
-        StartCoroutine(ConsumeOxygenOverTime(1f, durationInSeconds));
+        if (_actionCoroutine == null) // Ensure only one action is processed at a time
+        {
+            _actionCoroutine = StartCoroutine(ConsumeOxygenForAction(1f));
+        }
     }
 
     // Method to start the continuous breathing
@@ -52,25 +66,25 @@ public class OxygenManager: MonoBehaviour
     }
 
     // Coroutine to consume oxygen over time (using Time.deltaTime)
-    private IEnumerator ConsumeOxygenOverTime(float amountPerSecond, float durationInSeconds)
+    private IEnumerator ConsumeOxygenForAction(float amountPerSecond)
     {
-        float elapsedTime = 0f;
-
-        while (elapsedTime < durationInSeconds && _oxygenTank > 0)
+        while (_oxygenTank > 0 && !_stopAction)
         {
             // Calculate oxygen consumption per frame based on time
             float oxygenConsumption = amountPerSecond * Time.deltaTime;
             _oxygenTank -= oxygenConsumption;
 
-            elapsedTime += Time.deltaTime;
+            if (_oxygenTank <= 0)
+            {
+                _oxygenTank = 0;
+                // Handle oxygen depletion (e.g., game over logic)
+                break;
+            }
+
             yield return null; // Wait for the next frame
         }
 
-        if (_oxygenTank <= 0)
-        {
-            _oxygenTank = 0;
-            // Handle oxygen depletion (e.g., game over logic)
-        }
+        _actionCoroutine = null; // Mark the coroutine as stopped
     }
 }
 
