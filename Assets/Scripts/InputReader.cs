@@ -27,7 +27,7 @@ public class InputReader : MonoBehaviour
     {
         if (context.performed)
         {
-            Debug.Log("Left ox");
+            controller.LeftOxygen();
         }
     }
     
@@ -35,7 +35,7 @@ public class InputReader : MonoBehaviour
     {
         if (context.performed)
         {
-            Debug.Log("Right ox");
+            controller.RightOxygen();
         }
     }
     
@@ -43,6 +43,9 @@ public class InputReader : MonoBehaviour
     
     public void onHold(InputAction.CallbackContext context)
     {
-        
+        if (context.performed)
+        {
+            controller.Hold();
+        }
     }
 }

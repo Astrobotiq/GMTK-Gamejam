@@ -14,7 +14,7 @@ public class OxygenManager: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Oxygen level:"+_oxygenTank);
+        //Debug.Log("Oxygen level:"+_oxygenTank);
     }
 
     public void Use02ForPush(float durationInSeconds)
