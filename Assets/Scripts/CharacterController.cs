@@ -89,12 +89,12 @@ public class CharacterController : MonoBehaviour
 
     public void LeftOxygen()
     {
-        rb.AddForce(Vector2.left,ForceMode2D.Force);
+        rb.AddForce(Vector2.left*3,ForceMode2D.Force);
     }
     
     public void RightOxygen()
     {
-        rb.AddForce(Vector2.right,ForceMode2D.Force);
+        rb.AddForce(Vector2.right*3,ForceMode2D.Force);
     }
     
     

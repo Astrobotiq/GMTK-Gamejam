@@ -29,7 +29,7 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""LeftOxygen"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""f0d85605-8314-45c1-b210-a5dd9ca3d25e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -38,7 +38,7 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""RightOxygen"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""770a82ef-f57a-467f-8c89-76036262c063"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
