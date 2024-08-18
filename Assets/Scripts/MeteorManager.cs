@@ -35,13 +35,6 @@ public class MeteorManager : MonoBehaviour
 
     private void SpawnMeteor()
     {
-        if (spawnPoints.Length == 0)
-        {
-            Debug.LogError("No spawn points assigned!");
-            return;
-        }
-
-        // Randomly choose a spawn point
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
         // Determine the type of meteor to spawn
@@ -61,15 +54,12 @@ public class MeteorManager : MonoBehaviour
         switch (spawnType)
         {
             case 0:
-                Debug.Log("Spawning Rotating Meteor");
                 meteorPrefab = rotatingMeteorPrefab;
                 break;
             case 1:
-                Debug.Log("Spawning Moving Meteor");
                 meteorPrefab = movingMeteorPrefab;
                 break;
             case 2:
-                Debug.Log("Spawning Spinning Meteor");
                 meteorPrefab = spinningMeteorPrefab;
                 currentSpinningMeteor = Instantiate(meteorPrefab, spawnPoint.position, Quaternion.identity);
                 return; // Exit the function to prevent further spawning in this frame
