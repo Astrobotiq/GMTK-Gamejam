@@ -28,7 +28,9 @@ public class CharacterController : MonoBehaviour
     bool isHoldingMeteor;
     float meteorAngle;
     float meteorRadius;
-
+    public ArrowIndicator arrowIndicator;
+    private Vector3 arrowDirection;
+    public Throwable selectedThrowable;
     
 
 
@@ -37,6 +39,15 @@ public class CharacterController : MonoBehaviour
         InputReader.OnHoldEvent += setHolding;
         InputReader.OnLeftOxygenEvent += setLeftBlowing;
         InputReader.OnRightOxygenEvent += setRightBlowing;
+        InputReader.OnThrowEvent += setThrow;
+    }
+
+    void OnDisable()
+    {
+        InputReader.OnHoldEvent -= setHolding;
+        InputReader.OnLeftOxygenEvent -= setLeftBlowing;
+        InputReader.OnRightOxygenEvent -= setRightBlowing;
+        InputReader.OnThrowEvent -= setThrow;
     }
 
     public void setHolding(bool isPressed)
@@ -55,10 +66,16 @@ public class CharacterController : MonoBehaviour
         isRightBlowPressed = isPressed;
     }
 
+    public void setThrow(bool isPressed)
+    {
+        isThrowPressed = isPressed;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        selectedThrowable = null;
         isHoldPressed = false;
         isLeftBlowPressed = false;
         isRightBlowPressed = false;
@@ -75,7 +92,6 @@ public class CharacterController : MonoBehaviour
         }
         else if(isHoldPressed)
         {
-            Debug.Log("I am gonna handle hold");
             HandleHold();
         }
         else
@@ -84,7 +100,19 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    void HandleThrow(){}
+    void HandleThrow()
+    {
+        if (selectedThrowable != null)
+        {
+            arrowDirection = arrowIndicator.getRotation();
+            Vector2 throwDirection = new Vector2(Mathf.Cos(arrowDirection.z), Mathf.Sin(arrowDirection.z));
+            Debug.DrawRay(transform.position,throwDirection,Color.red);
+            selectedThrowable.ApplyForce(throwDirection*3);
+            rb.AddForce(-throwDirection,ForceMode2D.Impulse);
+            selectedThrowable = null;
+            arrowIndicator.gameObject.SetActive(false);
+        }
+    }
 
     void HandleHold()
     {
@@ -107,12 +135,25 @@ public class CharacterController : MonoBehaviour
             isHoldingMeteor = true;
             transform.position = ob.transform.position;
             var meteor = ob.GetComponent<Meteor>();
-            meteorAngle = meteor.angle;
-            meteorRadius = meteor.spinningRadius;
+            if (meteor.isRotatingMeteor)
+            {
+                meteorAngle = transform.eulerAngles.z;
+                transform.eulerAngles = new Vector3(0, 0, ob.transform.eulerAngles.z);
+            }
+            else if(meteor.isSpinningMeteor)
+            {
+                meteorAngle = meteor.angle;
+                meteorRadius = meteor.spinningRadius;
+            }
+            
         }
         else if(ob.GetComponent<Throwable>() != null)
         {
-            
+            if (selectedThrowable == null || selectedThrowable != ob.GetComponent<Throwable>())
+            {
+                arrowIndicator.gameObject.SetActive(true);
+                selectedThrowable = ob.GetComponent<Throwable>();
+            }
         }
         
     }
@@ -126,7 +167,8 @@ public class CharacterController : MonoBehaviour
             if (isHoldingMeteor)
             {
                 isHoldingMeteor = false;
-                var direction = new Vector2(Mathf.Cos(meteorAngle),Mathf.Sin(meteorAngle));
+                var direction = new Vector2(Mathf.Cos(meteorAngle),-Mathf.Sin(meteorAngle));
+                Debug.Log("direction x : "+direction.x + "direction y : " + direction.y);
                 rb.AddForce(direction*10,ForceMode2D.Impulse);
             }
         }

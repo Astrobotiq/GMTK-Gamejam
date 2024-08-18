@@ -62,6 +62,15 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Throw"",
+                    ""type"": ""Button"",
+                    ""id"": ""edbc6c71-48b4-45c0-801f-c3b891be1dc1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -108,6 +117,17 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Hold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""adec0334-23d1-4ecd-a46c-40c00b8eea64"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -120,6 +140,7 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
         m_CharacterControls_RightOxygen = m_CharacterControls.FindAction("RightOxygen", throwIfNotFound: true);
         m_CharacterControls_Look = m_CharacterControls.FindAction("Look", throwIfNotFound: true);
         m_CharacterControls_Hold = m_CharacterControls.FindAction("Hold", throwIfNotFound: true);
+        m_CharacterControls_Throw = m_CharacterControls.FindAction("Throw", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,6 +206,7 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterControls_RightOxygen;
     private readonly InputAction m_CharacterControls_Look;
     private readonly InputAction m_CharacterControls_Hold;
+    private readonly InputAction m_CharacterControls_Throw;
     public struct CharacterControlsActions
     {
         private @CharacterInputs m_Wrapper;
@@ -193,6 +215,7 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
         public InputAction @RightOxygen => m_Wrapper.m_CharacterControls_RightOxygen;
         public InputAction @Look => m_Wrapper.m_CharacterControls_Look;
         public InputAction @Hold => m_Wrapper.m_CharacterControls_Hold;
+        public InputAction @Throw => m_Wrapper.m_CharacterControls_Throw;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -214,6 +237,9 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
             @Hold.started += instance.OnHold;
             @Hold.performed += instance.OnHold;
             @Hold.canceled += instance.OnHold;
+            @Throw.started += instance.OnThrow;
+            @Throw.performed += instance.OnThrow;
+            @Throw.canceled += instance.OnThrow;
         }
 
         private void UnregisterCallbacks(ICharacterControlsActions instance)
@@ -230,6 +256,9 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
             @Hold.started -= instance.OnHold;
             @Hold.performed -= instance.OnHold;
             @Hold.canceled -= instance.OnHold;
+            @Throw.started -= instance.OnThrow;
+            @Throw.performed -= instance.OnThrow;
+            @Throw.canceled -= instance.OnThrow;
         }
 
         public void RemoveCallbacks(ICharacterControlsActions instance)
@@ -253,5 +282,6 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
         void OnRightOxygen(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnHold(InputAction.CallbackContext context);
+        void OnThrow(InputAction.CallbackContext context);
     }
 }

@@ -62,7 +62,7 @@ public class Throwable : MonoBehaviour
         {
             // Calculate force based on mass
             
-            _rigidbody.AddForce(baseForce);
+            _rigidbody.AddForce(baseForce,ForceMode2D.Impulse);
         }
     }
     

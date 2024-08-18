@@ -27,6 +27,15 @@ public class InputReader : MonoBehaviour
     {
         Rotation = inputs.CharacterControls.Look.ReadValue<Vector2>();
 
+        if (inputs.CharacterControls.Throw.IsPressed())
+        {
+            OnThrowEvent.Invoke(true);
+        }
+        else
+        {
+            OnThrowEvent.Invoke(false);
+        }
+
         if (inputs.CharacterControls.Hold.IsPressed())
         {
             OnHoldEvent.Invoke(true);
