@@ -104,11 +104,25 @@ public class CharacterController : MonoBehaviour
     {
         if (selectedThrowable != null)
         {
-            arrowDirection = arrowIndicator.getRotation();
-            Vector2 throwDirection = new Vector2(Mathf.Cos(arrowDirection.z), Mathf.Sin(arrowDirection.z));
-            Debug.DrawRay(transform.position,throwDirection,Color.red);
-            selectedThrowable.ApplyForce(throwDirection*3);
-            rb.AddForce(-throwDirection,ForceMode2D.Impulse);
+            // Extract the Z rotation angle in degrees and adjust for the 90-degree offset
+            float angleInDegrees = arrowIndicator.transform.eulerAngles.z - 90f;
+
+            // Convert the adjusted angle from degrees to radians
+            float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
+
+            // Calculate the direction as a Vector2
+            Vector2 throwDirection = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians)).normalized;
+
+            // Debugging ray to visualize the direction
+            Debug.DrawRay(transform.position, throwDirection * 3, Color.red, 2.0f);
+
+            // Apply force to the throwable object
+            selectedThrowable.ApplyForce(-throwDirection * 3);
+
+            // Apply opposite force to the character
+            rb.AddForce(throwDirection * 3, ForceMode2D.Impulse);
+
+            // Reset the selected throwable
             selectedThrowable = null;
             arrowIndicator.gameObject.SetActive(false);
         }
@@ -137,7 +151,10 @@ public class CharacterController : MonoBehaviour
             var meteor = ob.GetComponent<Meteor>();
             if (meteor.isRotatingMeteor)
             {
-                meteorAngle = transform.eulerAngles.z;
+                meteorAngle= arrowIndicator.transform.eulerAngles.z - 90f;
+
+                // Convert the adjusted angle from degrees to radians
+                float angleInRadians = meteorAngle * Mathf.Deg2Rad;
                 transform.eulerAngles = new Vector3(0, 0, ob.transform.eulerAngles.z);
             }
             else if(meteor.isSpinningMeteor)
@@ -167,8 +184,8 @@ public class CharacterController : MonoBehaviour
             if (isHoldingMeteor)
             {
                 isHoldingMeteor = false;
-                var direction = new Vector2(Mathf.Cos(meteorAngle),-Mathf.Sin(meteorAngle));
-                Debug.Log("direction x : "+direction.x + "direction y : " + direction.y);
+                var direction = new Vector2(Mathf.Cos(meteorAngle),Mathf.Sin(meteorAngle));
+                Debug.DrawRay(transform.position, direction * 3, Color.red, 2.0f);
                 rb.AddForce(direction*10,ForceMode2D.Impulse);
             }
         }
@@ -232,10 +249,10 @@ public class CharacterController : MonoBehaviour
 
     public void LeftOxygen()
     {
-        transform.eulerAngles = new Vector3(0,0,transform.eulerAngles.z - 0.2f);
+        //transform.eulerAngles = new Vector3(0,0,transform.eulerAngles.z - 0.2f);
 
         // Convert the angle to radians (for trigonometric functions)
-        /*float angleInRadians = transform.eulerAngles.z * Mathf.Deg2Rad;
+        float angleInRadians = transform.eulerAngles.z * Mathf.Deg2Rad;
 
         // Create a Vector2 direction from the rotation angle
         Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
@@ -243,13 +260,13 @@ public class CharacterController : MonoBehaviour
         // For demonstration: print the direction
         Debug.DrawRay(leftHand.position,direction,Color.red);
 
-        rb.AddForceAtPosition(direction*0.2f,leftHand.position,ForceMode2D.Force);*/
+        rb.AddForceAtPosition(direction*0.2f,leftHand.position,ForceMode2D.Force);
     }
     
     public void RightOxygen()
     {
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + 0.2f);
-        /*
+        //transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + 0.2f);
+        
         // Convert the angle to radians (for trigonometric functions)
         float angleInRadians = transform.eulerAngles.z * Mathf.Deg2Rad;
 
@@ -259,7 +276,7 @@ public class CharacterController : MonoBehaviour
         // For demonstration: print the direction
         Debug.DrawRay(rightHand.position,direction,Color.red);
 
-        rb.AddForceAtPosition(-direction*0.2f,rightHand.position,ForceMode2D.Force);*/
+        rb.AddForceAtPosition(-direction*0.2f,rightHand.position,ForceMode2D.Force);
     }
     
     
