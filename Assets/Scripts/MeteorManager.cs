@@ -62,7 +62,7 @@ public class MeteorManager : MonoBehaviour
             case 2:
                 meteorPrefab = spinningMeteorPrefab;
                 currentSpinningMeteor = Instantiate(meteorPrefab, spawnPoint.position, Quaternion.identity);
-                return; // Exit the function to prevent further spawning in this frame
+                return;
         }
 
         if (meteorPrefab != null)
@@ -70,8 +70,7 @@ public class MeteorManager : MonoBehaviour
             Instantiate(meteorPrefab, spawnPoint.position, Quaternion.identity);
         }
     }
-
-    // Method to clear the reference to the spinning meteor when it is destroyed
+    
     public void OnSpinningMeteorDestroyed()
     {
         currentSpinningMeteor = null;
