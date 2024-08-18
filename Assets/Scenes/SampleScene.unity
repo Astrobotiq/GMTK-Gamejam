@@ -777,9 +777,9 @@ MonoBehaviour:
     m_Bits: 8
   rightHand: {fileID: 434599664}
   leftHand: {fileID: 434599664}
-  feetHandler: {fileID: 1346364599}
-  bodyHandler: {fileID: 1629487892}
-  animator: {fileID: 851923836}
+  feetHandler: {fileID: 0}
+  bodyHandler: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!50 &417538234
 Rigidbody2D:
   serializedVersion: 4

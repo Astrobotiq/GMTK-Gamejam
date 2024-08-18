@@ -5,11 +5,12 @@ public class SunManager : MonoBehaviour
 {
     public Transform sunTransform;         // Reference to the sun's transform
     public float growthRate = 0.1f;        // Rate at which the sun grows over time
-    public float maxScale = 5f;            // Maximum scale the sun can reach before exploding
+    public float maxScale = 3f;            // Maximum scale the sun can reach before exploding
     public float explosionDelay = 2f;      // Time delay before the sun explodes after reaching max scale
     public GameObject explosionEffect;     // Explosion effect to instantiate upon sun's explosion
-    public BoxCollider2D triggerBox;       // Trigger box representing the sun's area
-
+    public CircleCollider2D triggerBox;       // Trigger box representing the sun's area
+    
+    
     private bool isExploding = false;      // Flag to check if the sun is in the process of exploding
     private Coroutine growthCoroutine;     // Coroutine for sun growth
 
@@ -45,8 +46,6 @@ public class SunManager : MonoBehaviour
         isExploding = true;
 
         // Optional: Add some pre-explosion effects or delays here if needed
-        yield return new WaitForSeconds(explosionDelay);
-
         // Instantiate the explosion effect at the sun's position
         if (explosionEffect != null)
         {
@@ -54,19 +53,24 @@ public class SunManager : MonoBehaviour
         }
 
         // Trigger game over (handled by the GameManager)
-        GameManager.Instance.OnGameOver();
+        //GameManager.Instance.OnGameOver();
 
         // Destroy the sun object or disable it
         Destroy(sunTransform.gameObject);
+        yield return null;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+       
         // Check if the player has entered the sun's trigger box (could add logic if needed)
-        if (collision.CompareTag("Player") && !isExploding)
+        if (!isExploding)
         {
+            
+            Destroy(collision.gameObject);
             // Maybe trigger some warning or visual effect to show the sun is too close
         }
+       
     }
 
     public void StopSunGrowth()
