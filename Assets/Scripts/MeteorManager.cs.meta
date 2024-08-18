@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 64a8f6279e807b34888d063e16cb144e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - rotatingMeteorPrefab: {fileID: 8912812781370579970, guid: f15edb70664ae66439878983caa033f7, type: 3}
+  - movingMeteorPrefab: {fileID: 8091991603500133082, guid: 6d10c1e0083837a40adeefc1334b50b3, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
