@@ -47,6 +47,11 @@ public class OxygenManager: MonoBehaviour
         }
     }
 
+    public float GetOxygenLevel()
+    {
+        return _oxygenTank;
+    }
+
 
     public void StartUseO2ForPush()
     {
