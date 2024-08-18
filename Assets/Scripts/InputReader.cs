@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class InputReader : MonoBehaviour
 {
+    public delegate void isPressed(bool isPressed);
+    public static event isPressed OnHoldEvent;
+    public static event isPressed OnThrowEvent;
+    public static event isPressed OnRightOxygenEvent;
+    public static event isPressed OnLeftOxygenEvent;
     CharacterController controller;
     CharacterInputs inputs;
     Vector2 Rotation;
@@ -21,63 +26,74 @@ public class InputReader : MonoBehaviour
     void Update()
     {
         Rotation = inputs.CharacterControls.Look.ReadValue<Vector2>();
-        controller.Look(Rotation);
 
-        if (inputs.CharacterControls.RightOxygen.IsPressed())
+        if (inputs.CharacterControls.Hold.IsPressed())
         {
-            controller.RightOxygen();
-            oxygenManager.StartUseO2ForPush();
+            OnHoldEvent.Invoke(true);
         }
         else
         {
-            oxygenManager.EndUseO2ForPush();
+            OnHoldEvent.Invoke(false); 
+        }
+
+        if (inputs.CharacterControls.RightOxygen.IsPressed())
+        {
+            OnRightOxygenEvent.Invoke(true);
+        }
+        else
+        {
+            OnRightOxygenEvent.Invoke(false);
         }
         
         if (inputs.CharacterControls.LeftOxygen.IsPressed())
         {
-            controller.LeftOxygen();
-            oxygenManager.StartUseO2ForPush();
+            OnLeftOxygenEvent.Invoke(true);
         }
         else
         {
-            oxygenManager.EndUseO2ForPush();
+            OnLeftOxygenEvent.Invoke(false);
         }
 
         
         
     }
 
-    //public void onLeftOxygen(InputAction.CallbackContext context)
-    //{
-    //    if (context.performed)
-    //    {
-    // //       controller.LeftOxygen();
-    //    }
-    //    else if (context.canceled)
-    //    {
-    //        
-    //    }
-    //}
-    //
-    //public void onRightOxygen(InputAction.CallbackContext context)
-    //{
-    //    if (context.performed)
-    //    {
-   //         
-    //    }
-    //    else if (context.canceled)
-    //    {
-    //        
-   //     }
-    //}
+    /*public void onLeftOxygen(InputAction.CallbackContext context)
+    {
+        if (context.)
+        {
+            OnLeftOxygenEvent.Invoke(true);
+        }
+        else if (context.canceled)
+        {
+            OnLeftOxygenEvent.Invoke(false);
+        }
+    }
+
+    public void onRightOxygen(InputAction.CallbackContext context)
+   {
+       if (context.performed)
+       {
+           OnRightOxygenEvent.Invoke(true);
+       }
+       else if (context.canceled)
+       {
+           OnRightOxygenEvent.Invoke(false);
+       }
+   }*/
     
     
     
-    public void onHold(InputAction.CallbackContext context)
+    /*public void onHold(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            controller.Hold();
+            OnHoldEvent.Invoke(true);
         }
-    }
+        else if (context.canceled)
+        {
+           OnHoldEvent.Invoke(false); 
+        }
+        
+    }*/
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,10 +7,12 @@ public class OxygenManager: MonoBehaviour
     private float _oxygenTank = 100f;
     private Coroutine _breatheCoroutine;
     private Coroutine _oxygenConsumptionCoroutine;
+    bool isAlreadyPressed;
     
     void Start()
     {
-       // Breathe();   
+        isAlreadyPressed = false;
+        // Breathe();   
     }
 
     // Update is called once per frame
@@ -18,7 +21,33 @@ public class OxygenManager: MonoBehaviour
         //Debug.Log("Oxygen level:"+_oxygenTank);
     }
 
-    
+    void OnEnable()
+    {
+        InputReader.OnRightOxygenEvent += useOxygen;
+        InputReader.OnLeftOxygenEvent += useOxygen;
+    }
+
+    void OnDisable()
+    {
+        InputReader.OnRightOxygenEvent -= useOxygen;
+        InputReader.OnLeftOxygenEvent -= useOxygen;
+    }
+
+    private void useOxygen(bool isPressed)
+    {
+        if (isPressed && !isAlreadyPressed)
+        {
+            isAlreadyPressed = true;
+            StartUseO2ForPush();
+        }
+        else
+        {
+            isAlreadyPressed = false;
+            EndUseO2ForPush();
+        }
+    }
+
+
     public void StartUseO2ForPush()
     {
         // Ensure any existing coroutine is stopped before starting a new one

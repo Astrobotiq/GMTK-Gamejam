@@ -6,7 +6,7 @@ public class Throwable : MonoBehaviour
 {
     private float mass;
     private Shape shape;
-    public Rigidbody _rigidbody;
+    public Rigidbody2D _rigidbody;
     
     public enum ShapeType
     {

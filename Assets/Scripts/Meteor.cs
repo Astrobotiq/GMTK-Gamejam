@@ -9,8 +9,8 @@ public class Meteor : MonoBehaviour
     public bool isSpinningMeteor = false;
 
     private Vector3 direction; // Only used for moving meteor
-    private float spinningRadius = 3f; // Radius of the spinning circle
-    private float angle; // Current angle for spinning
+    public float spinningRadius = 3f; // Radius of the spinning circle
+    public float angle; // Current angle for spinning
 
     private void Start()
     {
@@ -43,7 +43,7 @@ public class Meteor : MonoBehaviour
         else
         {
             // Move the meteor in the specified direction
-            transform.Translate(direction * speed * Time.deltaTime, Space.World);
+            transform.Translate(direction * speed * Time.deltaTime, Space.Self);
         }
         
         // Destroy meteor if it goes out of view
