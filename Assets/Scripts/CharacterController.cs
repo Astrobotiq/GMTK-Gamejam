@@ -2,10 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+    //Character stats
+    public float oxygenRotationSpeed =0.6f;
+    public Vector3 feetOffset = new Vector3(0, -0.75f);
+    
     bool isHoldPressed;
     bool isLeftBlowPressed;
     bool isRightBlowPressed;
@@ -81,7 +86,7 @@ public class CharacterController : MonoBehaviour
         isRightBlowPressed = false;
         isThrowPressed = false;
         isHoldingLittle = false;
-        isHoldingBig = true;
+        isHoldingBig = false;
     }
 
     void Update()
@@ -131,9 +136,23 @@ public class CharacterController : MonoBehaviour
     void HandleHold()
     {
         var bodyThrowable = bodyHandler.getSelected();
-        //var feetThrowable = feetHandler.getSelected();
+        var feetThrowable = feetHandler.getSelected();
 
-        if(bodyThrowable != null)
+
+        if (feetThrowable != null)
+        {
+            if (selectedThrowable == null)
+            {
+                Debug.Log("Big holding animasyon");
+                isHoldingBig = true;
+                animator.SetBool("isHoldingBig",isHoldingBig);
+            }
+
+            selectedThrowable = feetThrowable.GetComponent<Throwable>();
+            HandleFeetHold(feetThrowable);
+            return;
+        }
+        else if(bodyThrowable != null)
         {
             isHoldingLittle = true;
             animator.SetBool("isHoldingLittle",isHoldingLittle);
@@ -141,11 +160,57 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    void HandleFeetHold(GameObject go)
+    {
+        Vector3 chestPosition = transform.position;
+
+// Offset from chest to feet (adjust based on character's height)
+        feetOffset = new Vector2(0, -0.75f); // Adjust this based on your character's dimensions
+
+// Calculate the position of the feet
+        Vector3 feetPosition = chestPosition + (Vector3)feetOffset;
+
+// Collider of the target GameObject
+        Collider2D targetCollider = go.GetComponent<Collider2D>();
+
+// Get the closest point on the target's collider
+        Vector3 closestPoint = targetCollider.ClosestPoint(feetPosition);
+
+
+// Adjust the character's position so that the feet are at the closest point
+        transform.position = closestPoint - (Vector3)feetOffset;
+
+// Perform a raycast from the closest point to determine the surface normal
+        RaycastHit2D hit = Physics2D.Raycast(closestPoint, Vector2.down, 1f,raycastLayer);
+
+        if (hit.collider != null)
+        {
+            Debug.Log(hit.collider.gameObject.name);
+            // Get the normal of the surface at the closest point
+            Vector2 surfaceNormal = hit.normal;
+
+            // Calculate the angle to align the character with the surface normal
+            float angle = Mathf.Atan2(surfaceNormal.y, surfaceNormal.x) * Mathf.Rad2Deg;
+
+            // Set the rotation of the character to align with the surface normal
+            transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+
+            // Optional: Debugging visualization
+            Debug.DrawRay(hit.point, surfaceNormal * 2, Color.red, 2.0f);
+        }
+        else
+        {
+            Debug.LogWarning("Raycast did not hit the target collider.");
+        }
+
+    }
+
     void HandleBodyHold(GameObject ob)
     {
         
         if (ob.GetComponent<Meteor>()!= null)
         {
+            rb.velocity = new Vector2(0, 0);
             isHoldingMeteor = true;
             transform.position = ob.transform.position;
             var meteor = ob.GetComponent<Meteor>();
@@ -154,7 +219,10 @@ public class CharacterController : MonoBehaviour
                 meteorAngle= arrowIndicator.transform.eulerAngles.z - 90f;
 
                 // Convert the adjusted angle from degrees to radians
-                float angleInRadians = meteorAngle * Mathf.Deg2Rad;
+                meteorAngle = meteorAngle * Mathf.Deg2Rad;
+                var direction = new Vector2(Mathf.Cos(meteorAngle),Mathf.Sin(meteorAngle));
+                direction = -direction;
+                Debug.DrawRay(transform.position, direction * 3, Color.red, 2.0f);
                 transform.eulerAngles = new Vector3(0, 0, ob.transform.eulerAngles.z);
             }
             else if(meteor.isSpinningMeteor)
@@ -166,6 +234,7 @@ public class CharacterController : MonoBehaviour
         }
         else if(ob.GetComponent<Throwable>() != null)
         {
+            rb.velocity = new Vector2(0, 0);
             if (selectedThrowable == null || selectedThrowable != ob.GetComponent<Throwable>())
             {
                 arrowIndicator.gameObject.SetActive(true);
@@ -185,6 +254,7 @@ public class CharacterController : MonoBehaviour
             {
                 isHoldingMeteor = false;
                 var direction = new Vector2(Mathf.Cos(meteorAngle),Mathf.Sin(meteorAngle));
+                direction = -direction;
                 Debug.DrawRay(transform.position, direction * 3, Color.red, 2.0f);
                 rb.AddForce(direction*10,ForceMode2D.Impulse);
             }
@@ -193,6 +263,14 @@ public class CharacterController : MonoBehaviour
         {
             isHoldingBig = false;
             animator.SetBool("isHoldingBig",isHoldingBig);
+            var angle= transform.eulerAngles.z - 90f;
+
+            // Convert the adjusted angle from degrees to radians
+            angle = angle * Mathf.Deg2Rad;
+            var direction = new Vector2(Mathf.Cos(angle),Mathf.Sin(angle));
+            direction = -direction;
+            rb.AddForce(direction*3,ForceMode2D.Impulse);
+            selectedThrowable = null;
         }
         if (isRightBlowPressed)
         {
@@ -260,7 +338,7 @@ public class CharacterController : MonoBehaviour
         // For demonstration: print the direction
         Debug.DrawRay(leftHand.position,direction,Color.red);
 
-        rb.AddForceAtPosition(direction*0.2f,leftHand.position,ForceMode2D.Force);
+        rb.AddForceAtPosition(direction*oxygenRotationSpeed,leftHand.position,ForceMode2D.Force);
     }
     
     public void RightOxygen()
@@ -276,7 +354,7 @@ public class CharacterController : MonoBehaviour
         // For demonstration: print the direction
         Debug.DrawRay(rightHand.position,direction,Color.red);
 
-        rb.AddForceAtPosition(-direction*0.2f,rightHand.position,ForceMode2D.Force);
+        rb.AddForceAtPosition(-direction*oxygenRotationSpeed,rightHand.position,ForceMode2D.Force);
     }
     
     

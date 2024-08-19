@@ -5,20 +5,23 @@ using UnityEngine;
 public class OxygenManager: MonoBehaviour
 {
     private float _oxygenTank = 100f;
+    public float breathingMultiplier = 2;
     private Coroutine _breatheCoroutine;
     private Coroutine _oxygenConsumptionCoroutine;
     bool isAlreadyPressed;
+    OxygenUI UI;
     
     void Start()
     {
         isAlreadyPressed = false;
-        // Breathe();   
+        UI = GameObject.FindWithTag("OxygenUI").GetComponent<OxygenUI>();
+        Breathe();   
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("Oxygen level:"+_oxygenTank);
+        Debug.Log("Oxygen level:"+_oxygenTank);
     }
 
     void OnEnable()
@@ -51,6 +54,18 @@ public class OxygenManager: MonoBehaviour
     {
         return _oxygenTank;
     }
+    public void FillOxygen(float amount = 10f)
+    {
+        float maxOxygenTank = 100f;
+        
+        setOxygenTank(-amount);
+        if (_oxygenTank > maxOxygenTank)
+        {
+            _oxygenTank = maxOxygenTank;
+        }
+
+        Debug.Log("Oxygen tank filled. Current level: " + _oxygenTank);
+    }
 
 
     public void StartUseO2ForPush()
@@ -61,7 +76,7 @@ public class OxygenManager: MonoBehaviour
             StopCoroutine(_oxygenConsumptionCoroutine);
         }
     
-        _oxygenConsumptionCoroutine = StartCoroutine(ConsumeOxygenOverTime(1f));
+        _oxygenConsumptionCoroutine = StartCoroutine(ConsumeOxygenOverTime(10));
     }
     public void EndUseO2ForPush()
     {
@@ -78,14 +93,15 @@ public class OxygenManager: MonoBehaviour
         {
             // Calculate oxygen consumption per frame based on time
             float oxygenConsumption = amountPerSecond * Time.deltaTime;
-            _oxygenTank -= oxygenConsumption;
-
+            setOxygenTank(oxygenConsumption);
+            
+            
             yield return null; // Wait for the next frame
         }
 
         if (_oxygenTank <= 0)
         {
-            _oxygenTank = 0;
+            setOxygenTank(0);
             // Handle oxygen depletion (e.g., game over logic)
         }
     
@@ -106,7 +122,7 @@ public class OxygenManager: MonoBehaviour
     {
         while (_oxygenTank > 0)
         {
-            _oxygenTank -= 0.25f * Time.deltaTime;
+            setOxygenTank(breathingMultiplier * Time.deltaTime);
 
             if (_oxygenTank <= 0)
             {
@@ -143,6 +159,12 @@ public class OxygenManager: MonoBehaviour
 
         Debug.Log("Test completed.");
     }*/
+
+    void setOxygenTank(float value)
+    {
+        _oxygenTank -= value;
+        UI.setOxygenLevel(_oxygenTank);
+    }
     
 }
 
