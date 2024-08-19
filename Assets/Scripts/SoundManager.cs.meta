@@ -3,7 +3,16 @@ guid: 40253aa3f91538a4da576fe46b493a09
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - ambianceSpaceClip: {fileID: 8300000, guid: 0400b432a85bc1b47ac1fc738a9e75a4, type: 3}
+  - bodyPartSound1Clip: {fileID: 8300000, guid: d46cd32f909747a418fb36352ecb14a2, type: 3}
+  - bodyPartSound2Clip: {fileID: 8300000, guid: 5406e0a4c1708ed4aba05570910485a7, type: 3}
+  - explosionCrunchClip: {fileID: 8300000, guid: 5a3cb6690ec260a48878dc8416f5a8a4, type: 3}
+  - jetFireClip: {fileID: 8300000, guid: f1b80a80e1d03764e90dc67de867f409, type: 3}
+  - throwingMeteorClip: {fileID: 8300000, guid: f3df9b035f7df814c8ab46ed059b4d4c, type: 3}
+  - holdingMeteorClip: {fileID: 8300000, guid: 3ec870fa2ff11a542ae291b52c8b61b1, type: 3}
+  - mainMenuMusicClip: {fileID: 8300000, guid: 38726a9f1c719eb4ea810a27b4dce722, type: 3}
+  - breathingSoundClip: {fileID: 8300000, guid: ea6aaf141f4545542926cff38437894e, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
