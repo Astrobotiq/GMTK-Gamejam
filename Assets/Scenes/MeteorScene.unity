@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 406865331}
   - component: {fileID: 406865330}
   - component: {fileID: 406865329}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5051,7 +5051,7 @@ Transform:
   m_GameObject: {fileID: 406865328}
   serializedVersion: 2
   m_LocalRotation: {x: -0.85114676, y: -0.019337846, z: -0.03143322, w: 0.523629}
-  m_LocalPosition: {x: -1.775, y: 1.064, z: 7.671}
+  m_LocalPosition: {x: -9.775, y: 0.87399995, z: 7.671}
   m_LocalScale: {x: 1.05, y: 1.0500001, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5097,9 +5097,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 917288566}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: OBar
-  m_TagString: Untagged
+  m_TagString: OxygenUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5291,7 +5291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1695197763}
   - component: {fileID: 1695197764}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5307,7 +5307,7 @@ Transform:
   m_GameObject: {fileID: 1695197762}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.75, y: 1.06, z: 0}
+  m_LocalPosition: {x: -9.75, y: 0.87, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
