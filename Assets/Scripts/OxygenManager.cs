@@ -76,7 +76,7 @@ public class OxygenManager: MonoBehaviour
             StopCoroutine(_oxygenConsumptionCoroutine);
         }
     
-        _oxygenConsumptionCoroutine = StartCoroutine(ConsumeOxygenOverTime(5));
+        _oxygenConsumptionCoroutine = StartCoroutine(ConsumeOxygenOverTime(10));
     }
     public void EndUseO2ForPush()
     {

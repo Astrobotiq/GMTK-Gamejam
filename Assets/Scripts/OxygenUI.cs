@@ -26,22 +26,22 @@ public class OxygenUI : MonoBehaviour
     void setPicture()
     {
         int imageNum;
-        if (oxygenLevel == 100)
+        if (oxygenLevel >80)
         {
             imageNum = 0;
         }
-        else if (oxygenLevel>80)
+        else if (oxygenLevel>60)
         {
             imageNum = 1;
-        }else if (oxygenLevel>60)
+        }else if (oxygenLevel>40)
         {
             imageNum = 2;
         }
-        else if (oxygenLevel>40)
+        else if (oxygenLevel>25)
         {
             imageNum = 3;
         }
-        else if (oxygenLevel>25)
+        else if (oxygenLevel>5)
         {
             imageNum = 4;
         }
