@@ -107,3 +107,5 @@ public class SoundManager : MonoBehaviour
         source.PlayOneShot(breathingSoundClip);
     }
 }
+
+// For calling it "SoundManager.Instance.PlayBreathingSound();"
