@@ -51,6 +51,18 @@ public class OxygenManager: MonoBehaviour
     {
         return _oxygenTank;
     }
+    public void FillOxygen(float amount = 10f)
+    {
+        float maxOxygenTank = 100f;
+        
+        _oxygenTank += amount;
+        if (_oxygenTank > maxOxygenTank)
+        {
+            _oxygenTank = maxOxygenTank;
+        }
+
+        Debug.Log("Oxygen tank filled. Current level: " + _oxygenTank);
+    }
 
 
     public void StartUseO2ForPush()
