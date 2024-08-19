@@ -10,16 +10,6 @@ public class LevelManager : MonoBehaviour
 
     
 
-    void Start()
-    {
-        InitializeLevel();
-    }
-
-    void InitializeLevel()
-    {
-        // Spawn initial meteors or other objects as needed
-        
-    }
     
     public void CompleteLevel()
     {
@@ -29,11 +19,8 @@ public class LevelManager : MonoBehaviour
     void NotifyGameManagerLevelCompleted()
     {
         Debug.Log("Level is finished.");
-        //GameManager.Instance.OnLevelCompleted();
+        GameManager.Instance.OnLevelCompleted();
     }
 
-    public void StartLevel()
-    {
-        InitializeLevel();
-    }
+   
 }

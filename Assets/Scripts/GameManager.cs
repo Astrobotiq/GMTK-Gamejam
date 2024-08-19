@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,22 +24,23 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        StartLevel();
+        StartLevel(currentLevel);
     }
 
-    void StartLevel()
+    void StartLevel(int level)
     {
-        isGameOver = false;
-        levelManager.StartLevel();
+        SceneManager.LoadSceneAsync(level);
+        
+        
     }
 
     public void OnLevelCompleted()
     {
-        if (currentLevel < 4/* Total number of levels */)
+        if (currentLevel < SceneManager.sceneCount )
         {
             currentLevel++;
             Debug.Log("Starting next level: " + currentLevel);
-            StartLevel();
+            StartLevel(currentLevel);
         }
         else
         {
