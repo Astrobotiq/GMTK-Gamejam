@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 597873158688967973}
   - component: {fileID: 7863381835868232653}
   - component: {fileID: 6261557837745172764}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Holdable (13)
-  m_TagString: Untagged
+  m_TagString: BigHoldable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2101600796988051560}
   - component: {fileID: 5584397729917347611}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

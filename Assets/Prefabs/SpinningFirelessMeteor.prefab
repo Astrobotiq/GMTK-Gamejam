@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2576483824907710519}
   - component: {fileID: 2168917597334965452}
   - component: {fileID: 1712426903005372853}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SpinningFirelessMeteor
-  m_TagString: Untagged
+  m_TagString: LittleHoldable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

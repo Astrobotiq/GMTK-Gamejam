@@ -19,7 +19,6 @@ public class OxygenUI : MonoBehaviour
     public void setOxygenLevel(float level)
     {
         oxygenLevel = level;
-        Debug.Log(oxygenLevel);
         setPicture();
     }
 

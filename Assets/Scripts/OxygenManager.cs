@@ -17,13 +17,6 @@ public class OxygenManager: MonoBehaviour
         UI = GameObject.FindWithTag("OxygenUI").GetComponent<OxygenUI>();
         Breathe();   
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Debug.Log("Oxygen level:"+_oxygenTank);
-    }
-
     void OnEnable()
     {
         InputReader.OnRightOxygenEvent += useOxygen;

@@ -17,6 +17,7 @@ public class CharacterController : MonoBehaviour
     bool isThrowPressed;
     public float rayDistance = 10;
     public LayerMask raycastLayer;
+    public float maxVelocity = 5;
 
     Transform chosenArm;
     Vector2 dir;
@@ -57,7 +58,6 @@ public class CharacterController : MonoBehaviour
 
     public void setHolding(bool isPressed)
     {
-        Debug.Log("Hold pressed :" + isPressed);
         isHoldPressed = isPressed;
     }
     
@@ -103,6 +103,26 @@ public class CharacterController : MonoBehaviour
         {
             HandleDrift();
         }
+
+        var x = rb.velocity.x;
+        var y = rb.velocity.y;
+
+        if (x>maxVelocity)
+        {
+            x = maxVelocity;
+        }else if (x < -maxVelocity)
+        {
+            x = -maxVelocity;
+        }
+
+        if (y>maxVelocity)
+        {
+            y = maxVelocity;
+        }else if (y < -maxVelocity)
+        {
+            y = -maxVelocity;
+        }
+        rb.velocity = new Vector2(x, y);
     }
 
     void HandleThrow()
@@ -207,42 +227,60 @@ public class CharacterController : MonoBehaviour
 
     void HandleBodyHold(GameObject ob)
     {
-        
-        if (ob.GetComponent<Meteor>()!= null)
+        if (ob.GetComponent<Meteor>() != null)
         {
-            rb.velocity = new Vector2(0, 0);
+            rb.velocity = Vector2.zero; // Reset velocity
             isHoldingMeteor = true;
             transform.position = ob.transform.position;
             var meteor = ob.GetComponent<Meteor>();
+
             if (meteor.isRotatingMeteor)
             {
-                meteorAngle= arrowIndicator.transform.eulerAngles.z - 90f;
+                meteorAngle = arrowIndicator.transform.eulerAngles.z - 90f;
 
                 // Convert the adjusted angle from degrees to radians
                 meteorAngle = meteorAngle * Mathf.Deg2Rad;
-                var direction = new Vector2(Mathf.Cos(meteorAngle),Mathf.Sin(meteorAngle));
+                var direction = new Vector2(Mathf.Cos(meteorAngle), Mathf.Sin(meteorAngle));
                 direction = -direction;
                 Debug.DrawRay(transform.position, direction * 3, Color.red, 2.0f);
                 transform.eulerAngles = new Vector3(0, 0, ob.transform.eulerAngles.z);
             }
-            else if(meteor.isSpinningMeteor)
+            else if (meteor.isSpinningMeteor)
             {
                 meteorAngle = meteor.angle;
                 meteorRadius = meteor.spinningRadius;
+
+                // Calculate the velocity needed for spinning motion
+                float speed = meteor.spinningSpeed * 5f;
+
+                // Create a velocity vector based on the meteor angle
+                Vector2 velocity = new Vector2(Mathf.Cos(meteorAngle), -Mathf.Sin(meteorAngle)) * speed;
+
+                // Rotate the velocity vector to align with the character's head direction
+                float headAngle = transform.eulerAngles.z; // Assuming the character's head direction is aligned with its rotation
+                float headAngleRad = headAngle * Mathf.Deg2Rad;
+
+                // Rotate the velocity by the head angle
+                Vector2 rotatedVelocity = new Vector2(
+                    velocity.x * Mathf.Cos(headAngleRad) - velocity.y * Mathf.Sin(headAngleRad),
+                    velocity.x * Mathf.Sin(headAngleRad) + velocity.y * Mathf.Cos(headAngleRad)
+                );
+
+                // Apply the rotated velocity to the Rigidbody
+                rb.velocity = rotatedVelocity;
             }
-            
         }
-        else if(ob.GetComponent<Throwable>() != null)
+        else if (ob.GetComponent<Throwable>() != null)
         {
-            rb.velocity = new Vector2(0, 0);
+            rb.velocity = Vector2.zero;
             if (selectedThrowable == null || selectedThrowable != ob.GetComponent<Throwable>())
             {
                 arrowIndicator.gameObject.SetActive(true);
                 selectedThrowable = ob.GetComponent<Throwable>();
             }
         }
-        
     }
+
 
     void HandleDrift()
     {

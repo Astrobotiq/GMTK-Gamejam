@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8161961325587159346}
   - component: {fileID: 3933001483458834140}
   - component: {fileID: 6976289808288266116}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RotatingMeteor
-  m_TagString: Untagged
+  m_TagString: LittleHoldable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

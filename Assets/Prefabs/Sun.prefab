@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sunTransform: {fileID: 4292856592246615878}
   growthRate: 0.1
-  maxScale: 3
+  maxScale: 10
   explosionDelay: 2
   explosionEffect: {fileID: 375021007567639078, guid: 2c34671e03060a0419bb7f9d773e91f9, type: 3}
   triggerBox: {fileID: 0}

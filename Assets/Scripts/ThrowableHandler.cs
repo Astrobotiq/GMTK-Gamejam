@@ -8,6 +8,7 @@ public class ThrowableHandler : MonoBehaviour
 {
     BoxCollider2D collider;
     GameObject selectedObject;
+    public string tag;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,7 @@ public class ThrowableHandler : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<Throwable>() != null || other.GetComponent<Meteor>() != null)
+        if (other.gameObject.CompareTag(tag))
         {
             Debug.Log(other.gameObject.name);
             selectedObject = other.gameObject;

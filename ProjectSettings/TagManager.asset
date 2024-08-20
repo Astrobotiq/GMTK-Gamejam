@@ -7,6 +7,8 @@ TagManager:
   - LevelManager
   - OxygenManager
   - OxygenUI
+  - LittleHoldable
+  - BigHoldable
   layers:
   - Default
   - TransparentFX
