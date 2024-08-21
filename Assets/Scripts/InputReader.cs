@@ -11,39 +11,21 @@ public class InputReader : MonoBehaviour
     public static event isPressed OnThrowEvent;
     public static event isPressed OnRightOxygenEvent;
     public static event isPressed OnLeftOxygenEvent;
-    CharacterController controller;
+    NewCharContr controller;
     CharacterInputs inputs;
     Vector2 Rotation;
-    public OxygenManager oxygenManager;
+    //public OxygenManager oxygenManager;
 
     void Start()
     {
         inputs = new CharacterInputs();
         inputs.CharacterControls.Enable();
-        controller = GetComponent<CharacterController>();
+        controller = GetComponent<NewCharContr>();
     }
 
     void Update()
     {
-        Rotation = inputs.CharacterControls.Look.ReadValue<Vector2>();
-
-        if (inputs.CharacterControls.Throw.IsPressed())
-        {
-            OnThrowEvent.Invoke(true);
-        }
-        else
-        {
-            OnThrowEvent.Invoke(false);
-        }
-
-        if (inputs.CharacterControls.Hold.IsPressed())
-        {
-            OnHoldEvent.Invoke(true);
-        }
-        else
-        {
-            OnHoldEvent.Invoke(false); 
-        }
+        /*Rotation = inputs.CharacterControls.Look.ReadValue<Vector2>();
 
         if (inputs.CharacterControls.RightOxygen.IsPressed())
         {
@@ -61,7 +43,7 @@ public class InputReader : MonoBehaviour
         else
         {
             OnLeftOxygenEvent.Invoke(false);
-        }
+        }*/
 
         
         
@@ -93,16 +75,24 @@ public class InputReader : MonoBehaviour
     
     
     
-    /*public void onHold(InputAction.CallbackContext context)
+    public void onHold(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            OnHoldEvent.Invoke(true);
+            controller.Hold();
         }
         else if (context.canceled)
         {
-           OnHoldEvent.Invoke(false); 
+           controller.Release();
         }
         
-    }*/
+    }
+
+    public void onThrow(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            controller.Throw();
+        }
+    }
 }

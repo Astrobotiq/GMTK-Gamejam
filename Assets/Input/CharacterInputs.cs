@@ -110,7 +110,7 @@ public partial class @CharacterInputs: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""95280e68-539e-4887-9b13-9291a3b57b7b"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<XInputController>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
