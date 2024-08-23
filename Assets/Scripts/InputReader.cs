@@ -25,25 +25,19 @@ public class InputReader : MonoBehaviour
 
     void Update()
     {
-        /*Rotation = inputs.CharacterControls.Look.ReadValue<Vector2>();
+        Rotation = inputs.CharacterControls.Look.ReadValue<Vector2>();
 
         if (inputs.CharacterControls.RightOxygen.IsPressed())
         {
             OnRightOxygenEvent.Invoke(true);
         }
-        else
-        {
-            OnRightOxygenEvent.Invoke(false);
-        }
+      
         
         if (inputs.CharacterControls.LeftOxygen.IsPressed())
         {
             OnLeftOxygenEvent.Invoke(true);
         }
-        else
-        {
-            OnLeftOxygenEvent.Invoke(false);
-        }*/
+        
 
         
         

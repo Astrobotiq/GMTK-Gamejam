@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    //Character stats
+  /*  //Character stats
     public float oxygenRotationSpeed =0.6f;
     public Vector3 feetOffset = new Vector3(0, -0.75f);
     
@@ -359,7 +359,7 @@ public class CharacterController : MonoBehaviour
 
             // You can add more logic here, such as interacting with the hit object
         }
-    }*/
+    }
 
     
 
@@ -395,5 +395,5 @@ public class CharacterController : MonoBehaviour
         rb.AddForceAtPosition(-direction*oxygenRotationSpeed,rightHand.position,ForceMode2D.Force);
     }
     
-    
+    */
 }
